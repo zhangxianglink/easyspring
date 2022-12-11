@@ -22,44 +22,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author xiangzhang
  * @since 2022-12-11 14:16
  */
-public class DefaultBeanFactory implements BeanFactory {
+public class DefaultBeanFactory implements BeanFactory , BeanDefinitionRegistry{
 
-    private static final String ID_ATTRIBUTE = "id";
-    private static final String CLASS_ATTRIBUTE = "class";
+
     private final Map<String,BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
-
-    /**
-     * 解析xml
-     * @param configFile
-     */
-    public DefaultBeanFactory(String configFile){
-        loadBeanDefinition(configFile);
-    }
-
-    private void loadBeanDefinition(String configFile) {
-        ClassLoader cl = ClassUtils.getDefaultClassLoader();
-        try (InputStream is = cl.getResourceAsStream(configFile)){
-            SAXReader reader = new SAXReader();
-            Document doc = reader.read(is);
-            Element root = doc.getRootElement(); //<beans>
-            Iterator<Element> iter = root.elementIterator();
-            while(iter.hasNext()){
-                Element ele = iter.next();
-                String id = ele.attributeValue(ID_ATTRIBUTE);
-                String beanClassName = ele.attributeValue(CLASS_ATTRIBUTE);
-                BeanDefinition bd = new GenericBeanDefinition(id,beanClassName);
-                this.beanDefinitionMap.put(id,bd);
-            }
-        }catch (Exception e) {
-            throw new BeanDefinitionStoreException("definition bean for " + configFile + " is  error");
-        }
-
-    }
-
-    @Override
-    public BeanDefinition getBeanDefinition(String beanID) {
-        return this.beanDefinitionMap.get(beanID);
-    }
 
     @Override
     public Object getBean(String beanID) {
@@ -75,5 +41,15 @@ public class DefaultBeanFactory implements BeanFactory {
         } catch (Exception e) {
             throw new BeanCreationException("create bean for " + beanClassName + " is  error");
         }
+    }
+
+    @Override
+    public void registryBeanDefinition(String beanID, BeanDefinition bd) {
+        this.beanDefinitionMap.put(beanID,bd);
+    }
+
+    @Override
+    public BeanDefinition getBeanDefinition(String beanID) {
+        return this.beanDefinitionMap.get(beanID);
     }
 }

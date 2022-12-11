@@ -4,6 +4,7 @@ import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanDefinitionStoreException;
 import org.easyspring.beans.factory.BeanFactory;
+import org.easyspring.beans.factory.xml.XmlBeanDefinitionReader;
 import org.easyspring.beans.support.DefaultBeanFactory;
 import org.easyspring.service.v1.PetStoreService;
 import org.junit.Assert;
@@ -17,7 +18,9 @@ public class BeanFactoryTest {
 
     @Test
     public void testGetBean(){
-        BeanFactory beanFactory = new DefaultBeanFactory("petstore-v1.xml");
+        DefaultBeanFactory beanFactory = new DefaultBeanFactory();
+        XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(beanFactory);
+        xmlReader.loadBeanDefinition("petstore-v1.xml");
         BeanDefinition beanDefinition = beanFactory.getBeanDefinition("petStore");
         Assert.assertEquals("org.easyspring.service.v1.PetStoreService",beanDefinition.getBeanClassName());
         PetStoreService petStore = (PetStoreService) beanFactory.getBean("petStore");
@@ -26,9 +29,11 @@ public class BeanFactoryTest {
 
     @Test
     public void testInvalidBean(){
-        final DefaultBeanFactory factory = new DefaultBeanFactory("petstore-v1.xml");
+        DefaultBeanFactory beanFactory = new DefaultBeanFactory();
         try {
-            factory.getBean("nva");
+            XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(beanFactory);
+            xmlReader.loadBeanDefinition("petstore-v1.xml");
+            beanFactory.getBean("nva");
         }catch (BeanCreationException e){
             return;
         }
@@ -38,7 +43,9 @@ public class BeanFactoryTest {
     @Test
     public void testDefinition(){
         try {
-            new DefaultBeanFactory("test.xml");
+            DefaultBeanFactory beanFactory = new DefaultBeanFactory();
+            XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(beanFactory);
+            xmlReader.loadBeanDefinition("test-v1.xml");
         }catch (BeanDefinitionStoreException e){
             return;
         }
