@@ -6,8 +6,10 @@ import org.easyspring.beans.factory.BeanDefinitionStoreException;
 import org.easyspring.beans.factory.BeanFactory;
 import org.easyspring.beans.factory.xml.XmlBeanDefinitionReader;
 import org.easyspring.beans.support.DefaultBeanFactory;
+import org.easyspring.core.io.ClassPathResource;
 import org.easyspring.service.v1.PetStoreService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -16,11 +18,18 @@ import org.junit.Test;
  */
 public class BeanFactoryTest {
 
+    DefaultBeanFactory beanFactory= null;
+    XmlBeanDefinitionReader xmlReader = null;
+
+    @Before
+    public void setUp(){
+         beanFactory = new DefaultBeanFactory();
+         xmlReader = new XmlBeanDefinitionReader(beanFactory);
+    }
+
     @Test
     public void testGetBean(){
-        DefaultBeanFactory beanFactory = new DefaultBeanFactory();
-        XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(beanFactory);
-        xmlReader.loadBeanDefinition("petstore-v1.xml");
+        xmlReader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
         BeanDefinition beanDefinition = beanFactory.getBeanDefinition("petStore");
         Assert.assertEquals("org.easyspring.service.v1.PetStoreService",beanDefinition.getBeanClassName());
         PetStoreService petStore = (PetStoreService) beanFactory.getBean("petStore");
@@ -29,10 +38,8 @@ public class BeanFactoryTest {
 
     @Test
     public void testInvalidBean(){
-        DefaultBeanFactory beanFactory = new DefaultBeanFactory();
         try {
-            XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(beanFactory);
-            xmlReader.loadBeanDefinition("petstore-v1.xml");
+            xmlReader.loadBeanDefinition(new ClassPathResource("petstore-v1.xml"));
             beanFactory.getBean("nva");
         }catch (BeanCreationException e){
             return;
@@ -43,9 +50,7 @@ public class BeanFactoryTest {
     @Test
     public void testDefinition(){
         try {
-            DefaultBeanFactory beanFactory = new DefaultBeanFactory();
-            XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(beanFactory);
-            xmlReader.loadBeanDefinition("test-v1.xml");
+            xmlReader.loadBeanDefinition(new ClassPathResource("test-v1.xml"));
         }catch (BeanDefinitionStoreException e){
             return;
         }
