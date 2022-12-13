@@ -9,10 +9,11 @@ import org.easyspring.core.io.Resource;
 public abstract class abstractApplicationContext implements ApplicationContext {
 
     private DefaultBeanFactory factory;
+
     public abstractApplicationContext(String configFile) {
         factory = new DefaultBeanFactory();
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
-        Resource classPathResource = new ClassPathResource(configFile);
+        Resource classPathResource = this.getResourceByPath(configFile);
         reader.loadBeanDefinition(classPathResource);
     }
 
