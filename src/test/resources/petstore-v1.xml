@@ -7,4 +7,6 @@
     <bean id="petStore" class="org.easyspring.service.v1.PetStoreService"/>
 
     <bean id="nva" class="org.easyspring.service.v1.nva"/>
+
+    <bean id="proBean" class="org.easyspring.service.v1.proBeanService" scope="prototype"/>
 </beans>

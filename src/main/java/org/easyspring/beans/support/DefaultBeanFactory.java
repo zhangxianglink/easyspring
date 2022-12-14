@@ -1,12 +1,12 @@
 package org.easyspring.beans.support;
 
+import com.sun.istack.internal.NotNull;
 import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanFactory;
-import org.easyspring.beans.factory.config.ConfigurableBeanFactory;
+
 import org.easyspring.core.io.DefaultResourceLoader;
-import org.easyspring.core.io.ResourceLoader;
-import org.easyspring.util.ClassUtils;
+
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -27,6 +27,18 @@ public class DefaultBeanFactory extends DefaultResourceLoader implements BeanFac
         if (bd == null){
             throw new BeanCreationException("bean definition does not exist");
         }
+        if (bd.isSingleton()){
+            Object singleton = this.getSingleton(beanID);
+            if(singleton == null){
+                singleton = createBean(bd);
+                this.registerSingleton(beanID,singleton);
+            }
+            return singleton;
+        }
+        return createBean(bd);
+    }
+
+    private Object createBean(BeanDefinition bd) {
         ClassLoader cl = this.getClassLoader();
         String beanClassName = bd.getBeanClassName();
         try {
@@ -46,6 +58,7 @@ public class DefaultBeanFactory extends DefaultResourceLoader implements BeanFac
     public BeanDefinition getBeanDefinition(String beanID) {
         return this.beanDefinitionMap.get(beanID);
     }
+
 
 
 }
