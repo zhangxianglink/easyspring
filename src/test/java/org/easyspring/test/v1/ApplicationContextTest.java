@@ -22,7 +22,7 @@ public class ApplicationContextTest {
 
     @Test
     public void testGetBean2(){
-        ApplicationContext ctx = new FileSystemXmlApplicationContext("C:\\Users\\xiangzhang\\IdeaProjects\\easyspring\\src\\test\\resources\\petstore-v1.xml");
+        ApplicationContext ctx = new FileSystemXmlApplicationContext("src\\test\\resources\\petstore-v1.xml");
         PetStoreService petStoreService = (PetStoreService) ctx.getBean("petStore");
         Assert.assertNotNull(petStoreService);
     }

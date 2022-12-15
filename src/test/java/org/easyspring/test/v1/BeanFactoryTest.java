@@ -3,9 +3,9 @@ package org.easyspring.test.v1;
 import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanDefinitionStoreException;
-import org.easyspring.beans.factory.BeanFactory;
 import org.easyspring.beans.factory.xml.XmlBeanDefinitionReader;
 import org.easyspring.beans.support.DefaultBeanFactory;
+import org.easyspring.beans.support.SingletonBeanFactory;
 import org.easyspring.core.io.ClassPathResource;
 import org.easyspring.service.v1.PetStoreService;
 import org.easyspring.service.v1.proBeanService;
@@ -19,12 +19,12 @@ import org.junit.Test;
  */
 public class BeanFactoryTest {
 
-    DefaultBeanFactory beanFactory= null;
+    SingletonBeanFactory beanFactory= null;
     XmlBeanDefinitionReader xmlReader = null;
 
     @Before
     public void setUp(){
-         beanFactory = new DefaultBeanFactory();
+         beanFactory = new SingletonBeanFactory();
          xmlReader = new XmlBeanDefinitionReader(beanFactory);
     }
 

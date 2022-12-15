@@ -1,9 +1,5 @@
 package org.easyspring.beans.factory.context.support;
 
-import org.easyspring.beans.factory.context.ApplicationContext;
-import org.easyspring.beans.factory.xml.XmlBeanDefinitionReader;
-import org.easyspring.beans.support.DefaultBeanFactory;
-import org.easyspring.core.io.ClassPathResource;
 import org.easyspring.core.io.FileSystemResource;
 import org.easyspring.core.io.Resource;
 

@@ -8,7 +8,6 @@ import org.easyspring.beans.factory.BeanDefinitionStoreException;
 import org.easyspring.beans.support.BeanDefinitionRegistry;
 import org.easyspring.beans.support.GenericBeanDefinition;
 import org.easyspring.core.io.Resource;
-import org.easyspring.util.ClassUtils;
 
 import java.io.InputStream;
 import java.util.Iterator;

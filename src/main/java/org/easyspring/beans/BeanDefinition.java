@@ -12,6 +12,8 @@ public interface BeanDefinition {
 
     String getBeanClassName();
 
+    String getBeanId();
+
     boolean isSingleton();
 
     boolean isPrototype();

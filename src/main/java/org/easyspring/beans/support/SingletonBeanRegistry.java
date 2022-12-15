@@ -1,7 +1,5 @@
 package org.easyspring.beans.support;
 
-import org.easyspring.beans.BeanDefinition;
-
 /**
  * @author xiangzhang
  * @since 2022-12-14 15:58

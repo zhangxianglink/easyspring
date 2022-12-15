@@ -1,6 +1,5 @@
 package org.easyspring.test.v1;
 
-import org.easyspring.beans.factory.context.support.ClassPathXmlApplicationContext;
 import org.easyspring.core.io.ClassPathResource;
 import org.easyspring.core.io.FileSystemResource;
 import org.easyspring.core.io.Resource;
@@ -32,7 +31,7 @@ public class ResourceTest {
 
     @Test
     public void testFileSystemResource() throws IOException {
-        Resource r = new FileSystemResource("C:\\Users\\xiangzhang\\IdeaProjects\\easyspring\\src\\test\\resources\\petstore-v1.xml");
+        Resource r = new FileSystemResource("src\\test\\resources\\petstore-v1.xml");
         InputStream is = null;
         try {
             is = r.getInputStream();
