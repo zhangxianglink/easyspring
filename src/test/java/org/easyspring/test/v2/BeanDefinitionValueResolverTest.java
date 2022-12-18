@@ -46,7 +46,7 @@ public class BeanDefinitionValueResolverTest {
         reader.loadBeanDefinition(new ClassPathResource("petstore-v2.xml"));
 
         BeanDefinitionValueResolver resolver = new BeanDefinitionValueResolver(factory);
-        final TypeStringValue typeStringValue = new TypeStringValue("test");
+        final TypeStringValue typeStringValue = new TypeStringValue("this is value");
         Object value = resolver.resolveValueIfNecessary(typeStringValue);
 
         Assert.assertNotNull(value);
