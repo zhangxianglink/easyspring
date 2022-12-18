@@ -1,6 +1,8 @@
 package org.easyspring.test.v2;
 
 import org.easyspring.beans.factory.context.support.ClassPathXmlApplicationContext;
+import org.easyspring.dao.v2.AccountDao;
+import org.easyspring.dao.v2.ItemDao;
 import org.easyspring.service.v2.PetStoreService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -19,5 +21,14 @@ public class ApplicationContext {
         Assert.assertNotNull(petstore);
         Assert.assertNotNull(petstore.getAccountDao());
         Assert.assertNotNull(petstore.getItemDao());
+
+
+        Assert.assertTrue( petstore.getAccountDao() instanceof AccountDao);
+        Assert.assertTrue( petstore.getItemDao() instanceof ItemDao);
+
+        Assert.assertNotNull(petstore.getTest());
+
+
+        Assert.assertTrue( petstore.getTest().equals("this is value"));
     }
 }

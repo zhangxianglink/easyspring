@@ -8,8 +8,10 @@ import org.dom4j.io.SAXReader;
 import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.ProperTypeValue;
 import org.easyspring.beans.factory.BeanDefinitionStoreException;
+import org.easyspring.beans.factory.BeanFactory;
 import org.easyspring.beans.factory.config.RuntimeBeanReference;
 import org.easyspring.beans.factory.config.TypeStringValue;
+import org.easyspring.beans.factory.context.support.BeanDefinitionValueResolver;
 import org.easyspring.beans.support.BeanDefinitionRegistry;
 import org.easyspring.beans.support.GenericBeanDefinition;
 import org.easyspring.core.io.Resource;
@@ -38,6 +40,7 @@ public class XmlBeanDefinitionReader {
     BeanDefinitionRegistry registry;
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry){
         this.registry = registry;
+
     }
 
     public void loadBeanDefinition(Resource resource) {
@@ -59,6 +62,7 @@ public class XmlBeanDefinitionReader {
                 this.registry.registryBeanDefinition(id,bd);
             }
         }catch (Exception e) {
+            e.printStackTrace();
             throw new BeanDefinitionStoreException("definition bean for " + resource.getDescription() + " is  error");
         }
 

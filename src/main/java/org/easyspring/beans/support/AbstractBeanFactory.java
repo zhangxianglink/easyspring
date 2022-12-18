@@ -1,10 +1,16 @@
 package org.easyspring.beans.support;
 
 import org.easyspring.beans.BeanDefinition;
+import org.easyspring.beans.ProperTypeValue;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanFactory;
+import org.easyspring.beans.factory.context.support.BeanDefinitionValueResolver;
 import org.easyspring.core.io.DefaultResourceLoader;
 
+import java.beans.BeanInfo;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -27,6 +33,14 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
     }
 
     public Object createBean(BeanDefinition bd) {
+        // 生成实例
+        Object bean =  instantiateBean(bd);
+        // 设置属性
+        populateBean(bd,bean);
+        return bean;
+    }
+
+    private Object instantiateBean(BeanDefinition bd) {
         ClassLoader cl = this.getClassLoader();
         String beanClassName = bd.getBeanClassName();
         try {
@@ -36,6 +50,33 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
             throw new BeanCreationException("create bean for " + beanClassName + " is  error");
         }
     }
+
+    private void populateBean(BeanDefinition bd, Object bean){
+        final BeanDefinitionValueResolver resolver = new BeanDefinitionValueResolver(this);
+        final List<ProperTypeValue> pvs = bd.getProperValues();
+        if (pvs == null || pvs.isEmpty()){
+            return;
+        }
+        try {
+            for(ProperTypeValue pt: pvs){
+                final String name = pt.getName();
+                final Object value = pt.getValue();
+                final Object convertedValue = resolver.resolveValueIfNecessary(value);
+                final BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
+                final PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
+                for (PropertyDescriptor descriptor : descriptors){
+                    if (descriptor.getName().equals(name)){
+                        descriptor.getWriteMethod().invoke(bean,convertedValue);
+                        break;
+                    }
+                }
+            }
+        }catch (Exception e){
+            throw new RuntimeException("failed to obtain beanInfo for class " + bd.getBeanClassName());
+        }
+    }
+
+
 
     @Override
     public void registryBeanDefinition(String beanID, BeanDefinition bd) {

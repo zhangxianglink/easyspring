@@ -11,6 +11,15 @@ public class PetStoreService {
 
     private AccountDao accountDao;
     private ItemDao itemDao;
+    private String test;
+
+    public String getTest() {
+        return test;
+    }
+
+    public void setTest(String test) {
+        this.test = test;
+    }
 
     public AccountDao getAccountDao() {
         return accountDao;

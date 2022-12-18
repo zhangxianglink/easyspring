@@ -7,6 +7,7 @@
     <bean id="petStore" class="org.easyspring.service.v2.PetStoreService">
         <property name="accountDao" ref="accountDao"/>
         <property name="itemDao" ref="itemDao"/>
+        <property name="test" value="this is value"/>
     </bean>
 
     <bean id="accountDao" class="org.easyspring.dao.v2.AccountDao"/>
