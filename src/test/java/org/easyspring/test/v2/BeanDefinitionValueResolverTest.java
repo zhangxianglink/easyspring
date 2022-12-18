@@ -50,6 +50,7 @@ public class BeanDefinitionValueResolverTest {
         Object value = resolver.resolveValueIfNecessary(typeStringValue);
 
         Assert.assertNotNull(value);
+        System.out.println(value);
         Assert.assertEquals("this is value",value);
     }
 }

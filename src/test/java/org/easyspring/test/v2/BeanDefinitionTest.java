@@ -26,7 +26,7 @@ public class BeanDefinitionTest {
         final BeanDefinition petStore = factory.getBeanDefinition("petStore");
         List<ProperTypeValue> list = petStore.getProperValues();
 
-        Assert.assertTrue(list.size() == 3) ;
+        Assert.assertTrue(list.size() == 5) ;
 
         {
             ProperTypeValue ptv = this.getPropertyValue("accountDao",list);

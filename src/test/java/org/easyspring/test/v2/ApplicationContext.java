@@ -27,8 +27,9 @@ public class ApplicationContext {
         Assert.assertTrue( petstore.getItemDao() instanceof ItemDao);
 
         Assert.assertNotNull(petstore.getTest());
-
-
         Assert.assertTrue( petstore.getTest().equals("this is value"));
+
+        Assert.assertNotNull(petstore.getVersion());
+        Assert.assertTrue( 12 == petstore.getVersion() );
     }
 }

@@ -12,6 +12,25 @@ public class PetStoreService {
     private AccountDao accountDao;
     private ItemDao itemDao;
     private String test;
+    private int version;
+    private boolean bool;
+
+    public boolean isBool() {
+        return bool;
+    }
+
+    public void setBool(boolean bool) {
+        this.bool = bool;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public void setVersion(int version) {
+        this.version = version;
+    }
+
 
     public String getTest() {
         return test;

@@ -8,6 +8,8 @@
         <property name="accountDao" ref="accountDao"/>
         <property name="itemDao" ref="itemDao"/>
         <property name="test" value="this is value"/>
+        <property name="version" value="12"/>
+        <property name="bool" value="yes"/>
     </bean>
 
     <bean id="accountDao" class="org.easyspring.dao.v2.AccountDao"/>

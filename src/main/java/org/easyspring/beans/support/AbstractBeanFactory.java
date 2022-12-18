@@ -2,6 +2,7 @@ package org.easyspring.beans.support;
 
 import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.ProperTypeValue;
+import org.easyspring.beans.SimpleTypeConvert;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanFactory;
 import org.easyspring.beans.factory.context.support.BeanDefinitionValueResolver;
@@ -57,15 +58,17 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
         if (pvs == null || pvs.isEmpty()){
             return;
         }
+        final SimpleTypeConvert convert = new SimpleTypeConvert();
         try {
             for(ProperTypeValue pt: pvs){
                 final String name = pt.getName();
                 final Object value = pt.getValue();
-                final Object convertedValue = resolver.resolveValueIfNecessary(value);
+                final Object resolveValue = resolver.resolveValueIfNecessary(value);
                 final BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
                 final PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
                 for (PropertyDescriptor descriptor : descriptors){
                     if (descriptor.getName().equals(name)){
+                        final Object convertedValue = convert.convertIfNecessary(resolveValue, descriptor.getPropertyType());
                         descriptor.getWriteMethod().invoke(bean,convertedValue);
                         break;
                     }
