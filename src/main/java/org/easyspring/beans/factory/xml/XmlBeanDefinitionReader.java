@@ -17,6 +17,7 @@ import org.easyspring.beans.support.GenericBeanDefinition;
 import org.easyspring.core.io.Resource;
 import org.easyspring.util.StringUtils;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Iterator;
 
@@ -44,7 +45,10 @@ public class XmlBeanDefinitionReader {
     }
 
     public void loadBeanDefinition(Resource resource) {
-        try (InputStream is = resource.getInputStream()){
+        // try-with-resources 防止try文件读取异常
+        InputStream is = null;
+        try {
+            is = resource.getInputStream();
             SAXReader reader = new SAXReader();
             Document doc = reader.read(is);
             Element root = doc.getRootElement(); //<beans>
@@ -62,8 +66,15 @@ public class XmlBeanDefinitionReader {
                 this.registry.registryBeanDefinition(id,bd);
             }
         }catch (Exception e) {
-            e.printStackTrace();
             throw new BeanDefinitionStoreException("definition bean for " + resource.getDescription() + " is  error");
+        }finally {
+            if (is != null){
+                try {
+                    is.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
     }

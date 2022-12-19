@@ -1,5 +1,6 @@
 package org.easyspring.beans.support;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.ProperTypeValue;
 import org.easyspring.beans.SimpleTypeConvert;
@@ -37,7 +38,7 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
         // 生成实例
         Object bean =  instantiateBean(bd);
         // 设置属性
-        populateBean(bd,bean);
+        populateBeanUseCommonBeanUtils(bd,bean);
         return bean;
     }
 
@@ -52,6 +53,30 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
         }
     }
 
+    /**
+     * BeanUtils.setProperty 替代 自己实现
+     * @param bd
+     * @param bean
+     */
+    private void populateBeanUseCommonBeanUtils(BeanDefinition bd, Object bean){
+        final BeanDefinitionValueResolver resolver = new BeanDefinitionValueResolver(this);
+        final List<ProperTypeValue> pvs = bd.getProperValues();
+        if (pvs == null || pvs.isEmpty()){
+            return;
+        }
+        try {
+            for(ProperTypeValue pt: pvs){
+                final String name = pt.getName();
+                final Object value = pt.getValue();
+                final Object resolveValue = resolver.resolveValueIfNecessary(value);
+                BeanUtils.setProperty(bean,name,resolveValue);
+            }
+        }catch (Exception e){
+            throw new RuntimeException("CommonBeanUtils  " + bd.getBeanClassName());
+        }
+    }
+
+
     private void populateBean(BeanDefinition bd, Object bean){
         final BeanDefinitionValueResolver resolver = new BeanDefinitionValueResolver(this);
         final List<ProperTypeValue> pvs = bd.getProperValues();
@@ -64,6 +89,7 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
                 final String name = pt.getName();
                 final Object value = pt.getValue();
                 final Object resolveValue = resolver.resolveValueIfNecessary(value);
+
                 final BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
                 final PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
                 for (PropertyDescriptor descriptor : descriptors){
