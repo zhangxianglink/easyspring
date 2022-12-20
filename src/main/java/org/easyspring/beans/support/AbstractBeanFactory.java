@@ -2,6 +2,7 @@ package org.easyspring.beans.support;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.easyspring.beans.BeanDefinition;
+import org.easyspring.beans.ConstructorArgument;
 import org.easyspring.beans.ProperTypeValue;
 import org.easyspring.beans.SimpleTypeConvert;
 import org.easyspring.beans.factory.BeanCreationException;
@@ -31,7 +32,6 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
             throw new BeanCreationException("bean definition does not exist");
         }
         return this.getBeanByDefinition(bd);
-
     }
 
     public Object createBean(BeanDefinition bd) {
@@ -58,9 +58,10 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
      * @param bd
      * @param bean
      */
-    private void populateBeanUseCommonBeanUtils(BeanDefinition bd, Object bean){
+    private void populateBeanUseCommonBeanUtils(BeanDefinition bd , Object bean){
         final BeanDefinitionValueResolver resolver = new BeanDefinitionValueResolver(this);
         final List<ProperTypeValue> pvs = bd.getProperValues();
+        final ConstructorArgument constructorArgument = bd.getConstructorArgument();
         if (pvs == null || pvs.isEmpty()){
             return;
         }

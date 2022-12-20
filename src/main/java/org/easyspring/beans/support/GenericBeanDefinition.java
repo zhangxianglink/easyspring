@@ -1,6 +1,7 @@
 package org.easyspring.beans.support;
 
 import org.easyspring.beans.BeanDefinition;
+import org.easyspring.beans.ConstructorArgument;
 import org.easyspring.beans.ProperTypeValue;
 
 import java.util.ArrayList;
@@ -63,6 +64,13 @@ public class GenericBeanDefinition implements BeanDefinition {
     @Override
     public List<ProperTypeValue> getProperValues() {
         return this.properValues;
+    }
+
+    private ConstructorArgument constructorArguments = new ConstructorArgument();
+
+    @Override
+    public ConstructorArgument getConstructorArgument() {
+        return this.constructorArguments;
     }
 
 }

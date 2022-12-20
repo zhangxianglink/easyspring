@@ -8,7 +8,7 @@ import org.easyspring.core.io.Resource;
  * @author xiangzhang
  * @since 2022-12-11 20:59
  */
-public class ClassPathXmlApplicationContext extends abstractApplicationContext{
+public class ClassPathXmlApplicationContext extends AbstractApplicationContext {
 
 
     public ClassPathXmlApplicationContext(String configFile) {

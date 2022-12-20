@@ -6,11 +6,11 @@ import org.easyspring.beans.support.SingletonBeanFactory;
 import org.easyspring.core.io.DefaultResourceLoader;
 import org.easyspring.core.io.Resource;
 
-public abstract class abstractApplicationContext extends DefaultResourceLoader implements ApplicationContext {
+public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ApplicationContext {
 
     private SingletonBeanFactory factory;
 
-    public abstractApplicationContext(String configFile) {
+    public AbstractApplicationContext(String configFile) {
         factory = new SingletonBeanFactory();
         factory.setClassLoader(this.getClassLoader());
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);

@@ -7,7 +7,7 @@ import org.easyspring.core.io.Resource;
  * @author xiangzhang
  * @since 2022-12-13 21:45
  */
-public class FileSystemXmlApplicationContext extends abstractApplicationContext{
+public class FileSystemXmlApplicationContext extends AbstractApplicationContext {
 
 
     public FileSystemXmlApplicationContext(String configFile) {

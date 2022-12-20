@@ -1,4 +1,4 @@
-package org.easyspring.test.v2;
+package org.easyspring.test.v3;
 
 import org.easyspring.beans.factory.context.support.ClassPathXmlApplicationContext;
 import org.easyspring.dao.v2.AccountDao;
@@ -11,11 +11,11 @@ import org.junit.Test;
  * @author xiangzhang
  * @since 2022-12-16 11:31
  */
-public class ApplicationContext {
+public class ApplicationContextTest {
 
     @Test
     public void getBean(){
-        final ClassPathXmlApplicationContext cxt = new ClassPathXmlApplicationContext("petstore-v2.xml");
+        final ClassPathXmlApplicationContext cxt = new ClassPathXmlApplicationContext("petstore-v3.xml");
         PetStoreService petstore = (PetStoreService) cxt.getBean("petStore");
 
         Assert.assertNotNull(petstore);
@@ -26,10 +26,5 @@ public class ApplicationContext {
         Assert.assertTrue( petstore.getAccountDao() instanceof AccountDao);
         Assert.assertTrue( petstore.getItemDao() instanceof ItemDao);
 
-        Assert.assertNotNull(petstore.getTest());
-        Assert.assertTrue( petstore.getTest().equals("this is value"));
-
-        Assert.assertNotNull(petstore.getVersion());
-        Assert.assertTrue( 12 == petstore.getVersion() );
     }
 }

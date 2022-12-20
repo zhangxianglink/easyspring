@@ -6,6 +6,7 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.easyspring.beans.BeanDefinition;
+import org.easyspring.beans.ConstructorArgument;
 import org.easyspring.beans.ProperTypeValue;
 import org.easyspring.beans.factory.BeanDefinitionStoreException;
 import org.easyspring.beans.factory.BeanFactory;
@@ -36,6 +37,10 @@ public class XmlBeanDefinitionReader {
     private static final String VALUE_ATTRIBUTE = "value";
     private static final String NAME_ATTRIBUTE = "name";
 
+    private static final String CONSTRUCTOR_ARG_ATTRIBUTE = "constructor-arg";
+    private static final String TYPE_ATTRIBUTE = "type";
+
+
     protected final Log logger = LogFactory.getLog(XmlBeanDefinitionReader.class);
 
     BeanDefinitionRegistry registry;
@@ -62,6 +67,7 @@ public class XmlBeanDefinitionReader {
                 if (scope != null) {
                     bd.setScope(scope);
                 }
+                parseConstructorElements(ele,bd);
                 parsePropertyElement(ele,bd);
                 this.registry.registryBeanDefinition(id,bd);
             }
@@ -109,5 +115,19 @@ public class XmlBeanDefinitionReader {
         }else {
             throw new RuntimeException(properTypeName + " must be have a value or ref");
         }
+    }
+
+    public void parseConstructorElements(Element element,BeanDefinition bd){
+        final Iterator iterator = element.elementIterator(CONSTRUCTOR_ARG_ATTRIBUTE);
+        while (iterator.hasNext()){
+            final Element ele = (Element) iterator.next();
+            parseConstructorArgElement(ele,bd);
+        }
+    }
+
+    private void parseConstructorArgElement(Element ele, BeanDefinition bd) {
+        final Object value = parsePropertyValue(ele, bd, null);
+        final ConstructorArgument.ValueHolder valueHolder = new ConstructorArgument.ValueHolder(value);
+        bd.getConstructorArgument().addArgumentValues(valueHolder);
     }
 }
