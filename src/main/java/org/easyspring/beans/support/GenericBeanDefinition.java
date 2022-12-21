@@ -3,6 +3,7 @@ package org.easyspring.beans.support;
 import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.ConstructorArgument;
 import org.easyspring.beans.ProperTypeValue;
+import org.easyspring.core.io.DefaultResourceLoader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * @author xiangzhang
  * @since 2022-12-11 14:58
  */
-public class GenericBeanDefinition implements BeanDefinition {
+public class GenericBeanDefinition extends DefaultResourceLoader implements BeanDefinition {
 
     private String id ;
     private String beanClassName;
@@ -76,6 +77,13 @@ public class GenericBeanDefinition implements BeanDefinition {
     @Override
     public boolean hasConstructorArgument() {
         return !this.constructorArguments.getArgumentValues().isEmpty();
+    }
+
+    private Class<?> beanClass;
+
+    @Override
+    public Class<?> getBeanClass() throws ClassNotFoundException {
+        return this.beanClass == null ? getClassLoader().loadClass(this.beanClassName) : this.beanClass;
     }
 
 
