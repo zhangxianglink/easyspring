@@ -1,4 +1,4 @@
-package org.easyspring;
+package org.easyspring.test;
 
 import org.easyspring.test.v1.ApplicationContextTest;
 import org.easyspring.test.v1.BeanFactoryTest;

@@ -8,6 +8,7 @@ import org.easyspring.beans.SimpleTypeConvert;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanFactory;
 import org.easyspring.beans.factory.context.support.BeanDefinitionValueResolver;
+import org.easyspring.beans.factory.context.support.ConstructorResolver;
 import org.easyspring.core.io.DefaultResourceLoader;
 
 import java.beans.BeanInfo;
@@ -38,11 +39,15 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
         // 生成实例
         Object bean =  instantiateBean(bd);
         // 设置属性
-        populateBeanUseCommonBeanUtils(bd,bean);
+        populateBean(bd,bean);
         return bean;
     }
 
     private Object instantiateBean(BeanDefinition bd) {
+        if (bd.hasConstructorArgument()){
+            final ConstructorResolver resolver = new ConstructorResolver(this);
+            return resolver.autowireConstructor(bd);
+        }
         ClassLoader cl = this.getClassLoader();
         String beanClassName = bd.getBeanClassName();
         try {
@@ -54,7 +59,7 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
     }
 
     /**
-     * BeanUtils.setProperty 替代 自己实现
+     * BeanUtils.setProperty 替代populateBean 自己实现
      * @param bd
      * @param bean
      */

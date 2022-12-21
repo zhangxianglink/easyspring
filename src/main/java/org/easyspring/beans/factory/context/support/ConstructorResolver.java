@@ -32,7 +32,7 @@ public class ConstructorResolver {
     public Object autowireConstructor(BeanDefinition bd) {
         Constructor<?> constructorToUse = null;
         Object[] argsToUse = null;
-        Class<?> beanClass = null;
+        Class<?> beanClass;
         try {
             beanClass = this.beanFactory.getClassLoader().loadClass(bd.getBeanClassName());
         } catch (ClassNotFoundException e) {

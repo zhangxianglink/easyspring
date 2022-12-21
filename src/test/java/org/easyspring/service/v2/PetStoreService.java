@@ -15,6 +15,8 @@ public class PetStoreService {
     private int version;
     private boolean bool;
 
+    public  PetStoreService(){}
+
     public PetStoreService(AccountDao accountDao, ItemDao itemDao) {
         this.accountDao = accountDao;
         this.itemDao = itemDao;
