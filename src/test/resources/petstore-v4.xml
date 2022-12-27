@@ -11,6 +11,6 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.1.xsd
         ">
-    
+<!--    读取xml，对package进行扫描，把class变成Resource，从中读取注解，创建BeanDefinition, 生成注入类实例-->
     <context:component-scan base-package="org.easyspring.dao.v4,org.easyspring.service.v4"/>
 </beans>

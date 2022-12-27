@@ -14,6 +14,34 @@ import java.util.*;
  */
 public class ClassUtils {
 
+    /** Suffix for array class names: {@code "[]"}. */
+    public static final String ARRAY_SUFFIX = "[]";
+
+    /** Prefix for internal array class names: {@code "["}. */
+    private static final String INTERNAL_ARRAY_PREFIX = "[";
+
+    /** Prefix for internal non-primitive array class names: {@code "[L"}. */
+    private static final String NON_PRIMITIVE_ARRAY_PREFIX = "[L";
+
+    /** A reusable empty class array constant. */
+    private static final Class<?>[] EMPTY_CLASS_ARRAY = {};
+
+    /** The package separator character: {@code '.'}. */
+    private static final char PACKAGE_SEPARATOR = '.';
+
+    /** The path separator character: {@code '/'}. */
+    private static final char PATH_SEPARATOR = '/';
+
+    /** The nested class separator character: {@code '$'}. */
+    private static final char NESTED_CLASS_SEPARATOR = '$';
+
+    /** The CGLIB class separator: {@code "$$"}. */
+    public static final String CGLIB_CLASS_SEPARATOR = "$$";
+
+    /** The ".class" file suffix. */
+    public static final String CLASS_FILE_SUFFIX = ".class";
+
+
     private static final Map<Class<?>, Class<?>> primitiveWrapperTypeMap = new IdentityHashMap<>(9);
     private static final Map<Class<?>, Class<?>> primitiveTypeToWrapperMap = new IdentityHashMap<>(9);
     private static final Map<String, Class<?>> primitiveTypeNameMap = new HashMap<>(32);
@@ -109,6 +137,11 @@ public class ClassUtils {
             Class<?> resolvedWrapper = primitiveTypeToWrapperMap.get(rhsType);
             return (resolvedWrapper != null && lhsType.isAssignableFrom(resolvedWrapper));
         }
+    }
+
+    public static String convertClassNameToResourcePath(String className) {
+        Assert.notNull(className, "Class name must not be null");
+        return className.replace(PACKAGE_SEPARATOR, PATH_SEPARATOR);
     }
 
 
