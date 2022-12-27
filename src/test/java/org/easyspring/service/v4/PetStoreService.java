@@ -1,8 +1,8 @@
 package org.easyspring.service.v4;
 
 import org.easyspring.beans.factory.annotation.Autowired;
-import org.easyspring.dao.v2.AccountDao;
-import org.easyspring.dao.v2.ItemDao;
+import org.easyspring.dao.v4.AccountDao;
+import org.easyspring.dao.v4.ItemDao;
 import org.easyspring.stereotype.Component;
 
 /**
