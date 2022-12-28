@@ -63,17 +63,17 @@ public class PackageResourceLoader {
     private Set<Path> retrieveMatchingFiles(File rootDir) throws IOException {
         if (!rootDir.exists()){
             if (log.isDebugEnabled()){
-
+                log.warn("skipping " +rootDir.getAbsolutePath() + " it's not exist");
             }
         }
         if (!rootDir.isDirectory()){
             if (log.isDebugEnabled()){
-
+                log.warn("skipping " +rootDir.getAbsolutePath() + " it's Directory");
             }
         }
         if (!rootDir.canRead()){
             if (log.isDebugEnabled()){
-
+                log.warn("skipping " +rootDir.getAbsolutePath() + " it's Directory");
             }
         }
         try(Stream<Path> walk = Files.walk(Paths.get(rootDir.getAbsolutePath()))) {
