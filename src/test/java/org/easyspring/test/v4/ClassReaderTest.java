@@ -29,5 +29,6 @@ public class ClassReaderTest {
         Assert.assertEquals("org.easyspring.service.v4.PetStoreService",visitor.getClassName());
         Assert.assertEquals("java.lang.Object",visitor.getSuperClassName());
         Assert.assertEquals(0,visitor.getInterfaceNames().length);
+
     }
 }
