@@ -9,7 +9,7 @@ import org.junit.Test;
  * @author xiangzhang
  * @since 2022-12-27 15:28
  */
-public class ApplicationContextTest4 {
+public class applicationContextTest4 {
 
     @Test
     public void testGetBeanProperty(){

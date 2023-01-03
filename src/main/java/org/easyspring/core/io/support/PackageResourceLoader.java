@@ -48,6 +48,7 @@ public class PackageResourceLoader {
         String location = ClassUtils.convertClassNameToResourcePath(basePackage);
         ClassLoader classLoader = getClassLoader();
         URL url = classLoader.getResource(location);
+        assert url != null : "url is empty!";
         File rootDir = new File(url.getFile());
 
         Set<Path> matchingFiles = retrieveMatchingFiles(rootDir);

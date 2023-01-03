@@ -1,7 +1,9 @@
 package org.easyspring.test.v4;
 
 
+import org.easyspring.core.annotation.AnnotationAttributes;
 import org.easyspring.core.io.ClassPathResource;
+import org.easyspring.core.type.classreading.AnnotationMetaDataReadingVisitor;
 import org.easyspring.core.type.classreading.CLassMetadataReadingVisitor;
 import org.junit.Assert;
 import org.junit.Test;
@@ -31,4 +33,19 @@ public class ClassReaderTest {
         Assert.assertEquals(0,visitor.getInterfaceNames().length);
 
     }
+
+     @Test
+    public void testGetAnnotation() throws Exception{
+         final ClassPathResource resource = new ClassPathResource("org/easyspring/service/v4/PetStoreService.class");
+         final ClassReader reader = new ClassReader(resource.getInputStream());
+
+         AnnotationMetaDataReadingVisitor visitor = new AnnotationMetaDataReadingVisitor();
+         reader.accept(visitor, ClassReader.SKIP_DEBUG);
+
+         String annotation = "org.easyspring.stereotype.Component";
+         Assert.assertTrue(visitor.hasAnnotation(annotation));
+
+         AnnotationAttributes attributes = visitor.getAnnotationAttributes(annotation);
+         Assert.assertEquals("petStore",attributes.get("value"));
+     }
 }
