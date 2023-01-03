@@ -14,7 +14,16 @@ import java.util.List;
  */
 public class GenericBeanDefinition extends DefaultResourceLoader implements BeanDefinition {
 
+    public void setBeanId(String id) {
+        this.id = id;
+    }
+
     private String id ;
+
+    public void setBeanClassName(String beanClassName) {
+        this.beanClassName = beanClassName;
+    }
+
     private String beanClassName;
     private boolean singleton = true;
     private boolean prototype = false;
@@ -24,6 +33,10 @@ public class GenericBeanDefinition extends DefaultResourceLoader implements Bean
     public GenericBeanDefinition(String id, String beanClassName) {
         this.id = id;
         this.beanClassName = beanClassName;
+    }
+
+    public GenericBeanDefinition() {
+
     }
 
     @Override
