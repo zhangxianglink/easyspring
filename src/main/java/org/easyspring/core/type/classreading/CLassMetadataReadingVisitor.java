@@ -1,5 +1,6 @@
 package org.easyspring.core.type.classreading;
 
+import org.easyspring.core.type.ClassMetadata;
 import org.easyspring.util.ClassUtils;
 import org.springframework.asm.ClassVisitor;
 import org.springframework.asm.Opcodes;
@@ -9,7 +10,7 @@ import org.springframework.asm.SpringAsmInfo;
  * @author xiangzhang
  * @since 2022-12-28 16:55
  */
-public class CLassMetadataReadingVisitor extends ClassVisitor {
+public class CLassMetadataReadingVisitor extends ClassVisitor implements ClassMetadata {
 
     private String className;
     private boolean isInterface;

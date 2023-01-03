@@ -1,6 +1,7 @@
 package org.easyspring.core.type.classreading;
 
 import org.easyspring.core.annotation.AnnotationAttributes;
+import org.easyspring.core.type.AnnotationMetaData;
 import org.springframework.asm.AnnotationVisitor;
 import org.springframework.asm.Type;
 
@@ -9,7 +10,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class AnnotationMetaDataReadingVisitor extends CLassMetadataReadingVisitor{
+public class AnnotationMetaDataReadingVisitor extends CLassMetadataReadingVisitor implements AnnotationMetaData {
     private final Set<String> annotationSet = new LinkedHashSet<>();
     private final Map<String, AnnotationAttributes> attributesMap = new LinkedHashMap<>();
 
