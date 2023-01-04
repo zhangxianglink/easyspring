@@ -7,6 +7,8 @@ import org.easyspring.beans.ProperTypeValue;
 import org.easyspring.beans.SimpleTypeConvert;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanFactory;
+import org.easyspring.beans.factory.config.AutowireCapableBeanFactory;
+import org.easyspring.beans.factory.config.DependencyDescriptor;
 import org.easyspring.beans.factory.context.support.BeanDefinitionValueResolver;
 import org.easyspring.beans.factory.context.support.ConstructorResolver;
 import org.easyspring.core.io.DefaultResourceLoader;
@@ -22,7 +24,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author xiangzhang
  * @since 2022-12-15 16:14
  */
-public abstract class AbstractBeanFactory extends DefaultResourceLoader implements BeanFactory, BeanDefinitionRegistry {
+public abstract class AbstractBeanFactory extends DefaultResourceLoader implements BeanFactory, BeanDefinitionRegistry , AutowireCapableBeanFactory {
 
     private final Map<String,BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
@@ -111,7 +113,30 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
         }
     }
 
+    @Override
+    public Object resolveDependency(DependencyDescriptor descriptor) {
+        Class<?> type = descriptor.getDependencyType();
+        for (BeanDefinition bd: this.beanDefinitionMap.values()){
+            resovleBeanClass(bd);
+            Class<?> beanClass = bd.getBeanClass();
+            if (type.isAssignableFrom(beanClass)){
+                return  this.getBean(bd.getBeanId());
+            }
+        }
+        return null;
+    }
 
+    private void resovleBeanClass(BeanDefinition bd) {
+        if (bd.hasBeanClass()){
+            return;
+        }else {
+            try {
+                bd.resolveBeanClass();
+            }catch (ClassNotFoundException e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     @Override
     public void registryBeanDefinition(String beanID, BeanDefinition bd) {

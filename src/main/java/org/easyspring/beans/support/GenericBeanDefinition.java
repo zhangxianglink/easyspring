@@ -7,6 +7,7 @@ import org.easyspring.core.io.DefaultResourceLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author xiangzhang
@@ -14,16 +15,7 @@ import java.util.List;
  */
 public class GenericBeanDefinition extends DefaultResourceLoader implements BeanDefinition {
 
-    public void setBeanId(String id) {
-        this.id = id;
-    }
-
     private String id ;
-
-    public void setBeanClassName(String beanClassName) {
-        this.beanClassName = beanClassName;
-    }
-
     private String beanClassName;
     private boolean singleton = true;
     private boolean prototype = false;
@@ -70,7 +62,12 @@ public class GenericBeanDefinition extends DefaultResourceLoader implements Bean
         this.singleton = SCOPE_SINGLETON.equals(scope) || SCOPE_DEFAULT.equals(scope);
         this.prototype = SCOPE_PROTOTYPE.equals(scope);
     }
-
+    public void setBeanClassName(String beanClassName) {
+        this.beanClassName = beanClassName;
+    }
+    public void setBeanId(String id) {
+        this.id = id;
+    }
 
 
     private List<ProperTypeValue> properValues = new ArrayList<>();
@@ -95,8 +92,28 @@ public class GenericBeanDefinition extends DefaultResourceLoader implements Bean
     private Class<?> beanClass;
 
     @Override
-    public Class<?> getBeanClass() throws ClassNotFoundException {
-        return this.beanClass == null ? getClassLoader().loadClass(this.beanClassName) : this.beanClass;
+    public Class<?> getBeanClass() {
+        try {
+            return this.beanClass == null ? getClassLoader().loadClass(this.beanClassName) : this.beanClass;
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Class<?> resolveBeanClass() throws ClassNotFoundException {
+        String className = getBeanClassName();
+        if (Objects.isNull(className)){
+            return null;
+        }
+        Class<?> resolvedClass = getClassLoader().loadClass(className);
+        this.beanClass = resolvedClass;
+        return resolvedClass;
+    }
+
+    @Override
+    public boolean hasBeanClass() {
+        return this.beanClass != null;
     }
 
 

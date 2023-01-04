@@ -33,11 +33,7 @@ public class ConstructorResolver {
         Constructor<?> constructorToUse = null;
         Object[] argsToUse = null;
         Class<?> beanClass;
-        try {
-            beanClass = bd.getBeanClass();
-        } catch (ClassNotFoundException e) {
-            throw new BeanCreationException("can't constructor");
-        }
+        beanClass = bd.getBeanClass();
 
         final Constructor<?>[] constructors = beanClass.getConstructors();
 
