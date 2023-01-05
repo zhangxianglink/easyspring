@@ -8,7 +8,9 @@ import org.easyspring.beans.SimpleTypeConvert;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanFactory;
 import org.easyspring.beans.factory.config.AutowireCapableBeanFactory;
+import org.easyspring.beans.factory.config.BeanPostProcessor;
 import org.easyspring.beans.factory.config.DependencyDescriptor;
+import org.easyspring.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.easyspring.beans.factory.context.support.BeanDefinitionValueResolver;
 import org.easyspring.beans.factory.context.support.ConstructorResolver;
 import org.easyspring.core.io.DefaultResourceLoader;
@@ -16,6 +18,7 @@ import org.easyspring.core.io.DefaultResourceLoader;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -28,6 +31,7 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
 
     private final Map<String,BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
+    private List<BeanPostProcessor> beanPostProcessors = new ArrayList<BeanPostProcessor>();
     @Override
     public Object getBean(String beanID) {
         BeanDefinition bd = this.beanDefinitionMap.get(beanID);
@@ -86,6 +90,12 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
 
 
     private void populateBean(BeanDefinition bd, Object bean){
+        for (BeanPostProcessor processor : this.getBeanPostProcessor()){
+            if (processor instanceof InstantiationAwareBeanPostProcessor){
+                ((InstantiationAwareBeanPostProcessor) processor).postProcessPropertyValues(bean,bd.getBeanId());
+            }
+        }
+
         final BeanDefinitionValueResolver resolver = new BeanDefinitionValueResolver(this);
         final List<ProperTypeValue> pvs = bd.getProperValues();
         if (pvs == null || pvs.isEmpty()){
@@ -148,6 +158,15 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
         return this.beanDefinitionMap.get(beanID);
     }
 
+    @Override
+    public void addBeanPostProcessor(BeanPostProcessor postProcessor) {
+        this.beanPostProcessors.add(postProcessor);
+    }
+
+    @Override
+    public List<BeanPostProcessor> getBeanPostProcessor() {
+        return this.beanPostProcessors;
+    }
 
     protected abstract Object getBeanByDefinition(BeanDefinition bd );
 }
