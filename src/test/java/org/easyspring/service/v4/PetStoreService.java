@@ -10,7 +10,7 @@ import org.easyspring.stereotype.Component;
  * @since 2022-12-11 14:14
  */
 @Component(value = "petStore")
-public class PetStoreService {
+public class  PetStoreService {
 
     @Autowired
     private AccountDao accountDao;
