@@ -6,25 +6,16 @@ import org.easyspring.aop.Pointcut;
 
 import java.lang.reflect.Method;
 
-public class AspectJAfterReturningAdvice implements Advice {
-    private final Method adviceMethod;
-    private final Pointcut pc;
-    private final Object adviceObject;
-    public AspectJAfterReturningAdvice(Method adviceMethod, Pointcut pc,  Object adviceObject) {
-        this.adviceMethod = adviceMethod;
-        this.pc = pc;
-        this.adviceObject = adviceObject;
-    }
+public class AspectJAfterReturningAdvice extends AbstractAspectJAdvice{
 
-    @Override
-    public Pointcut getPointcut() {
-        return pc;
+    public AspectJAfterReturningAdvice(Method adviceMethod, Pointcut pc,  Object adviceObject) {
+        super(adviceMethod,pc,adviceObject);
     }
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
         Object proceed = methodInvocation.proceed();
-        adviceMethod.invoke(adviceObject);
+        this.invokeAdviceMethod();
         return proceed;
     }
 }

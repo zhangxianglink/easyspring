@@ -33,4 +33,8 @@ public class PetStoreService5 {
         System.out.println("place order");
         MessageTracker.addMsg("place order");
     }
+
+    public void placeOrderException(){
+        throw new IllegalArgumentException();
+    }
 }

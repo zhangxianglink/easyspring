@@ -7,24 +7,15 @@ import org.easyspring.tx.TransactionManager;
 
 import java.lang.reflect.Method;
 
-public class AspectJBeforeAdvice implements Advice {
-    private final Method adviceMethod;
-    private final Pointcut pc;
-    private final Object adviceObject;
-    public AspectJBeforeAdvice(Method adviceMethod, Pointcut pc,  Object adviceObject) {
-        this.adviceMethod = adviceMethod;
-        this.pc = pc;
-        this.adviceObject = adviceObject;
-    }
+public class AspectJBeforeAdvice extends AbstractAspectJAdvice {
 
-    @Override
-    public Pointcut getPointcut() {
-        return pc;
+    public AspectJBeforeAdvice(Method adviceMethod, Pointcut pc,  Object adviceObject) {
+        super(adviceMethod,pc,adviceObject);
     }
 
     @Override
     public Object invoke(MethodInvocation methodInvocation) throws Throwable {
-        adviceMethod.invoke(adviceObject);
+       this.invokeAdviceMethod();
         return methodInvocation.proceed();
     }
 }
