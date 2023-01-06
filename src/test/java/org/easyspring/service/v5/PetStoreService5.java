@@ -4,6 +4,7 @@ import org.easyspring.beans.factory.annotation.Autowired;
 import org.easyspring.dao.v4.AccountDao;
 import org.easyspring.dao.v4.ItemDao;
 import org.easyspring.stereotype.Component;
+import org.easyspring.util.MessageTracker;
 
 /**
  * @author xiangzhang
@@ -30,5 +31,6 @@ public class PetStoreService5 {
 
     public void placeOrder() {
         System.out.println("place order");
+        MessageTracker.addMsg("place order");
     }
 }
