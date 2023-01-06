@@ -1,10 +1,7 @@
 package org.easyspring.beans.support;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.easyspring.beans.BeanDefinition;
-import org.easyspring.beans.ConstructorArgument;
-import org.easyspring.beans.ProperTypeValue;
-import org.easyspring.beans.SimpleTypeConvert;
+import org.easyspring.beans.*;
 import org.easyspring.beans.factory.BeanCreationException;
 import org.easyspring.beans.factory.BeanFactory;
 import org.easyspring.beans.factory.config.AutowireCapableBeanFactory;
@@ -169,4 +166,14 @@ public abstract class AbstractBeanFactory extends DefaultResourceLoader implemen
     }
 
     protected abstract Object getBeanByDefinition(BeanDefinition bd );
+
+    @Override
+    public Class<?> getType(String targetBeanName) throws NoSuchBeanDefinitionException {
+        BeanDefinition beanDefinition = this.getBeanDefinition(targetBeanName);
+        if (beanDefinition == null){
+            throw new NoSuchBeanDefinitionException(targetBeanName);
+        }
+        resovleBeanClass(beanDefinition);
+        return beanDefinition.getBeanClass();
+    }
 }

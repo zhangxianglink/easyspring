@@ -1,5 +1,6 @@
 package org.easyspring.beans.factory.context.support;
 
+import org.easyspring.beans.NoSuchBeanDefinitionException;
 import org.easyspring.beans.factory.annotation.AutowiredAnnotationProcessor;
 import org.easyspring.beans.factory.context.ApplicationContext;
 import org.easyspring.beans.factory.xml.XmlBeanDefinitionReader;
@@ -32,6 +33,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         factory.addBeanPostProcessor(processor);
     }
 
+    @Override
+    public Class<?> getType(String targetBeanName) throws NoSuchBeanDefinitionException {
+        return this.factory.getType(targetBeanName);
+    }
 
     protected abstract Resource getResourceByPath(String path);
 }
