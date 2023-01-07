@@ -4,16 +4,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.dom4j.Document;
 import org.dom4j.Element;
-import org.dom4j.Namespace;
 import org.dom4j.io.SAXReader;
+import org.easyspring.aop.config.ConfigBeanDefinitionParser;
 import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.ConstructorArgument;
 import org.easyspring.beans.ProperTypeValue;
 import org.easyspring.beans.factory.BeanDefinitionStoreException;
-import org.easyspring.beans.factory.BeanFactory;
 import org.easyspring.beans.factory.config.RuntimeBeanReference;
 import org.easyspring.beans.factory.config.TypeStringValue;
-import org.easyspring.beans.factory.context.support.BeanDefinitionValueResolver;
 import org.easyspring.beans.support.BeanDefinitionRegistry;
 import org.easyspring.beans.support.GenericBeanDefinition;
 import org.easyspring.context.annotation.ClassPathBeanDefinitionScanner;
@@ -72,6 +70,9 @@ public class XmlBeanDefinitionReader {
                     parseDefaultElements(ele);
                 }else if (this.isContentNameSpace(namespaceURI)){
                     parseComponentElement(ele);
+                }else {
+                    // aop构造
+                    parseAopElement(ele);
                 }
             }
         }catch (Exception e) {
@@ -85,6 +86,11 @@ public class XmlBeanDefinitionReader {
                 }
             }
         }
+    }
+
+    private void parseAopElement(Element ele) {
+        ConfigBeanDefinitionParser parser = new ConfigBeanDefinitionParser();
+        parser.parse(ele, this.registry);
     }
 
     private void parseComponentElement(Element ele) {

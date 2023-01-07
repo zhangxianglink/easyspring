@@ -1,5 +1,6 @@
 package org.easyspring.beans.support;
 
+import org.easyspring.aop.config.MethodLocationFactory;
 import org.easyspring.beans.BeanDefinition;
 import org.easyspring.beans.ConstructorArgument;
 import org.easyspring.beans.ProperTypeValue;
@@ -20,6 +21,17 @@ public class GenericBeanDefinition extends DefaultResourceLoader implements Bean
     private boolean singleton = true;
     private boolean prototype = false;
     private String scope = SCOPE_DEFAULT;
+
+    public GenericBeanDefinition(Class<?> clz) {
+        this.beanClass =clz;
+        this.beanClassName = clz.getName();
+    }
+
+    public void setSynthetic(boolean synthetic) {
+        isSynthetic = synthetic;
+    }
+
+    private boolean isSynthetic = false;
 
 
     public GenericBeanDefinition(String id, String beanClassName) {
@@ -114,6 +126,11 @@ public class GenericBeanDefinition extends DefaultResourceLoader implements Bean
     @Override
     public boolean hasBeanClass() {
         return this.beanClass != null;
+    }
+
+    @Override
+    public boolean isSynthetic() {
+        return this.isSynthetic;
     }
 
 

@@ -2,6 +2,7 @@ package org.easyspring.aop.aspectj;
 
 import org.easyspring.aop.Advice;
 import org.easyspring.aop.Pointcut;
+import org.easyspring.aop.config.AspectInstanceFactory;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,13 +11,13 @@ public abstract class AbstractAspectJAdvice implements Advice {
 
 
     private final Method adviceMethod;
-    private final Pointcut pc;
-    private final Object adviceObject;
+    private final AspectJExpressionPointcut pc;
+    private final AspectInstanceFactory aspectInstanceFactory;
 
-    public AbstractAspectJAdvice(Method adviceMethod, Pointcut pc,  Object adviceObject) {
+    public AbstractAspectJAdvice(Method adviceMethod, AspectJExpressionPointcut pc,  AspectInstanceFactory aspectInstanceFactory) {
         this.adviceMethod = adviceMethod;
         this.pc = pc;
-        this.adviceObject = adviceObject;
+        this.aspectInstanceFactory = aspectInstanceFactory;
     }
 
     @Override
@@ -28,10 +29,10 @@ public abstract class AbstractAspectJAdvice implements Advice {
     }
 
     public Object getAdviceObject() {
-        return adviceObject;
+        return aspectInstanceFactory;
     }
 
     public Object invokeAdviceMethod() throws Throwable{
-        return adviceMethod.invoke(adviceObject);
+        return adviceMethod.invoke(aspectInstanceFactory.getAspectInstance());
     }
 }

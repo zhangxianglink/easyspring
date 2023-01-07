@@ -1,5 +1,7 @@
 package org.easyspring.beans;
 
+import org.easyspring.beans.support.GenericBeanDefinition;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +35,11 @@ public class ConstructorArgument {
         this.argumentValues.clear();
     }
 
-    // TODO 拓展
+    public void addArgumentValue(Object value) {
+        this.argumentValues.add(new ValueHolder(value));
+    }
+
+
     public static class ValueHolder {
         private Object value;
         private String type;

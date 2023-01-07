@@ -2,11 +2,13 @@ package org.easyspring.aop.config;
 
 import org.easyspring.beans.BeanUtils;
 import org.easyspring.beans.factory.BeanFactory;
+import org.easyspring.beans.factory.BeanFactoryAware;
+import org.easyspring.beans.factory.FactoryBean;
 import org.easyspring.util.StringUtils;
 
 import java.lang.reflect.Method;
 
-public class MethodLocationFactory {
+public class MethodLocationFactory implements FactoryBean<Method>, BeanFactoryAware {
     private String targetBeanName;
     private String methodName;
     private Method method;
@@ -37,5 +39,10 @@ public class MethodLocationFactory {
 
     public Method getObject() {
         return this.method;
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return Method.class ;
     }
 }
